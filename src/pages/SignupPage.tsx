@@ -8,6 +8,7 @@ import { users } from '@/data/users';
 
 const SignupPage = () => {
   const navigate = useNavigate();
+  const { setCurrentUser } = useApp();
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const [dob, setDob] = useState('');
