@@ -1,7 +1,8 @@
-import { Heart, MessageCircle, Share2 } from 'lucide-react';
+import { Heart, MessageCircle, Send } from 'lucide-react';
 import { Post } from '@/types';
 import { useApp } from '@/context/AppContext';
 import { cn } from '@/lib/utils';
+import { useNavigate } from 'react-router-dom';
 
 interface PostCardProps {
   post: Post;
