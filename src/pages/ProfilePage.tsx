@@ -125,7 +125,7 @@ const ProfilePage = () => {
 
       {/* Actions */}
       <div className="flex gap-2.5 px-6 mb-6">
-        <button className="flex-[4] bg-foreground text-background rounded-lg py-2.5 text-sm font-semibold text-center">
+        <button onClick={() => navigate('/edit-profile')} className="flex-[4] bg-foreground text-background rounded-lg py-2.5 text-sm font-semibold text-center">
           Edit Profile
         </button>
         <button onClick={() => setShareModalVisible(true)} className="flex-1 bg-secondary rounded-lg flex items-center justify-center text-sm font-semibold text-foreground">
