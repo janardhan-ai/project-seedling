@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
+import { useApp } from '@/context/AppContext';
+import { users } from '@/data/users';
 
 const SignupPage = () => {
   const navigate = useNavigate();
