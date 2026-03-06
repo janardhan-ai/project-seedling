@@ -60,7 +60,7 @@ const RAW_NOTIFICATIONS: Notification[] = [
     id: '5', type: 'event',
     user: { id: 'sys', name: 'Campus Vibe', username: 'system', avatar: '' },
     content: 'Reminder: "Tech Fest 2025" starts tomorrow!',
-    timestamp: '1d', read: true, relatedId: 'event_55',
+    timestamp: '1d', read: true, relatedId: '1',
   },
   {
     id: '6', type: 'like',
