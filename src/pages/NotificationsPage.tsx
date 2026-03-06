@@ -66,7 +66,7 @@ const RAW_NOTIFICATIONS: Notification[] = [
     id: '6', type: 'like',
     user: { id: 'u5', name: 'Kiran Kumar', username: 'kiran_k', avatar: 'https://i.pravatar.cc/150?img=11' },
     postImage: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=200&auto=format&fit=crop',
-    timestamp: '3d', read: true, relatedId: 'post_103',
+    timestamp: '3d', read: true, relatedId: '3',
   },
   {
     id: '7', type: 'system',
