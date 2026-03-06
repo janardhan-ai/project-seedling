@@ -94,8 +94,8 @@ export const mockMessages: { [conversationId: string]: Message[] } = {
     {
       id: 'm2',
       conversation_id: '1',
-      sender_id: 'current-user',
-      sender_name: 'You',
+      sender_id: '1',
+      sender_name: 'Janardhan',
       sender_avatar: 'https://i.pravatar.cc/150?img=12',
       content: 'Yes! I registered yesterday. Are you going?',
       is_read: true,
