@@ -42,14 +42,14 @@ const RAW_NOTIFICATIONS: Notification[] = [
     id: '2', type: 'like',
     user: { id: 'u2', name: 'Rahul Verma', username: 'rahul_v', avatar: 'https://i.pravatar.cc/150?img=12' },
     postImage: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=200&auto=format&fit=crop',
-    timestamp: '15m', read: false, relatedId: 'post_101',
+    timestamp: '15m', read: false, relatedId: '1',
   },
   {
     id: '3', type: 'comment',
     user: { id: 'u3', name: 'Arjun Das', username: 'arjun_d', avatar: 'https://i.pravatar.cc/150?img=3' },
     content: 'Bro, is this notes pdf available for ECE branch too?',
     postImage: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=200&auto=format&fit=crop',
-    timestamp: '1d', read: true, relatedId: 'post_102',
+    timestamp: '1d', read: true, relatedId: '2',
   },
   {
     id: '4', type: 'follow',
@@ -60,13 +60,13 @@ const RAW_NOTIFICATIONS: Notification[] = [
     id: '5', type: 'event',
     user: { id: 'sys', name: 'Campus Vibe', username: 'system', avatar: '' },
     content: 'Reminder: "Tech Fest 2025" starts tomorrow!',
-    timestamp: '1d', read: true, relatedId: 'event_55',
+    timestamp: '1d', read: true, relatedId: '1',
   },
   {
     id: '6', type: 'like',
     user: { id: 'u5', name: 'Kiran Kumar', username: 'kiran_k', avatar: 'https://i.pravatar.cc/150?img=11' },
     postImage: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=200&auto=format&fit=crop',
-    timestamp: '3d', read: true, relatedId: 'post_103',
+    timestamp: '3d', read: true, relatedId: '3',
   },
   {
     id: '7', type: 'system',
@@ -118,15 +118,10 @@ const NotificationsPage = () => {
   const handlePress = (item: Notification) => {
     updateSections(secs => secs.map(s => ({ ...s, data: s.data.map(n => n.id === item.id ? { ...n, read: true } : n) })));
     // Navigate to related content
-    if (item.type === 'like' && item.relatedId?.startsWith('post_')) {
+    if ((item.type === 'like' || item.type === 'comment') && item.relatedId) {
       navigate(`/post/${item.relatedId}`);
-    } else if (item.type === 'comment' && item.relatedId?.startsWith('post_')) {
-      navigate(`/post/${item.relatedId}`);
-    } else if (item.type === 'follow' && item.relatedId?.startsWith('u')) {
-      // Could navigate to user profile when implemented
-    } else if (item.type === 'event' && item.relatedId?.startsWith('event_')) {
-      const eventId = item.relatedId.replace('event_', '');
-      navigate(`/event/${eventId}`);
+    } else if (item.type === 'event' && item.relatedId) {
+      navigate(`/event/${item.relatedId}`);
     }
   };
 

@@ -1,7 +1,8 @@
-import { Heart, MessageCircle, Share2 } from 'lucide-react';
+import { Heart, MessageCircle, Send } from 'lucide-react';
 import { Post } from '@/types';
 import { useApp } from '@/context/AppContext';
 import { cn } from '@/lib/utils';
+import { useNavigate } from 'react-router-dom';
 
 interface PostCardProps {
   post: Post;
@@ -11,6 +12,7 @@ interface PostCardProps {
 
 const PostCard = ({ post, onPress, onCommentPress }: PostCardProps) => {
   const { likePost } = useApp();
+  const navigate = useNavigate();
 
   const formatTime = (date: Date) => {
     const diff = Date.now() - new Date(date).getTime();
@@ -77,8 +79,11 @@ const PostCard = ({ post, onPress, onCommentPress }: PostCardProps) => {
           <span className="text-[13px] font-semibold text-foreground">{post.comments}</span>
         </button>
 
-        <button className="flex items-center gap-1.5 active:scale-90 transition-transform ml-auto">
-          <Share2 className="h-[20px] w-[20px] text-foreground" strokeWidth={1.8} />
+        <button
+          onClick={() => navigate(`/post/${post.id}`)}
+          className="flex items-center gap-1.5 active:scale-90 transition-transform ml-auto"
+        >
+          <Send className="h-[20px] w-[20px] text-foreground" strokeWidth={1.8} />
         </button>
       </div>
 

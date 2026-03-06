@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { X, Heart, Send, MessageCircle } from 'lucide-react';
 import { Post } from '@/types';
 import { cn } from '@/lib/utils';
-import { Input } from '@/components/ui/input';
+import { useApp } from '@/context/AppContext';
 
 interface Comment {
   id: string;
@@ -47,6 +47,7 @@ const dummyComments: Comment[] = [
 ];
 
 const CommentsModal = ({ visible, onClose, post }: CommentsModalProps) => {
+  const { currentUser } = useApp();
   const [commentText, setCommentText] = useState('');
   const [comments, setComments] = useState<Comment[]>(dummyComments);
 
@@ -56,8 +57,8 @@ const CommentsModal = ({ visible, onClose, post }: CommentsModalProps) => {
     if (!commentText.trim()) return;
     const newComment: Comment = {
       id: Date.now().toString(),
-      user: 'you',
-      avatar: 'https://i.pravatar.cc/150?img=1',
+      user: currentUser?.username || 'you',
+      avatar: currentUser?.avatar || 'https://i.pravatar.cc/150?img=1',
       text: commentText,
       likes: 0,
       time: 'Just now',
@@ -129,7 +130,7 @@ const CommentsModal = ({ visible, onClose, post }: CommentsModalProps) => {
         {/* Input */}
         <div className="flex items-center gap-3 p-4 border-t border-border bg-card">
           <img
-            src="https://i.pravatar.cc/150?img=1"
+            src={currentUser?.avatar || 'https://i.pravatar.cc/150?img=1'}
             alt="You"
             className="w-8 h-8 rounded-full object-cover shrink-0"
           />

@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
+import { useApp } from '@/context/AppContext';
+import { users } from '@/data/users';
 
 const SignupPage = () => {
   const navigate = useNavigate();
+  const { setCurrentUser } = useApp();
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const [dob, setDob] = useState('');
@@ -57,9 +60,10 @@ const SignupPage = () => {
 
     setLoading(true);
     setTimeout(() => {
+      setCurrentUser(users[0]);
       setLoading(false);
       toast({ title: 'Success', description: 'Account created successfully!' });
-      navigate('/welcome');
+      navigate('/', { replace: true });
     }, 1200);
   };
 

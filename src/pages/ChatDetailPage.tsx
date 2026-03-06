@@ -81,7 +81,7 @@ const ChatDetailPage = () => {
     const newMsg: EnhancedMessage = {
       id: Date.now().toString(),
       conversation_id: chatId || '',
-      sender_id: currentUser?.id || 'current-user',
+      sender_id: currentUser?.id || '1',
       sender_name: currentUser?.name || 'You',
       sender_avatar: currentUser?.avatar || '',
       content: messageText,
@@ -141,7 +141,7 @@ const ChatDetailPage = () => {
     else if (action === 'copy') { navigator.clipboard.writeText(msg.content); toast.success('Copied to clipboard'); }
     else if (action === 'edit') { setEditingMessage(msg); setMessageText(msg.content); inputRef.current?.focus(); }
     else if (action === 'delete') {
-      const isMe = msg.sender_id === (currentUser?.id || 'current-user');
+      const isMe = msg.sender_id === currentUser?.id;
       if (isMe) {
         setMessages(prev => prev.map(m => m.id === msg.id ? { ...m, type: 'deleted', content: '🚫 Deleted' } : m));
       } else {
@@ -151,7 +151,7 @@ const ChatDetailPage = () => {
     setContextMenu(null);
   };
 
-  const isMe = (senderId: string) => senderId === (currentUser?.id || 'current-user');
+  const isMe = (senderId: string) => senderId === currentUser?.id;
 
   return (
     <div className="flex flex-col h-screen bg-muted/40">
