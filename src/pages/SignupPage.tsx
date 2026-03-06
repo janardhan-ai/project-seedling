@@ -60,9 +60,10 @@ const SignupPage = () => {
 
     setLoading(true);
     setTimeout(() => {
+      setCurrentUser(users[0]);
       setLoading(false);
       toast({ title: 'Success', description: 'Account created successfully!' });
-      navigate('/welcome');
+      navigate('/', { replace: true });
     }, 1200);
   };
 

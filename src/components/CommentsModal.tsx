@@ -130,7 +130,7 @@ const CommentsModal = ({ visible, onClose, post }: CommentsModalProps) => {
         {/* Input */}
         <div className="flex items-center gap-3 p-4 border-t border-border bg-card">
           <img
-            src="https://i.pravatar.cc/150?img=1"
+            src={currentUser?.avatar || 'https://i.pravatar.cc/150?img=1'}
             alt="You"
             className="w-8 h-8 rounded-full object-cover shrink-0"
           />

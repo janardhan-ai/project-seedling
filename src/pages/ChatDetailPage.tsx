@@ -141,7 +141,7 @@ const ChatDetailPage = () => {
     else if (action === 'copy') { navigator.clipboard.writeText(msg.content); toast.success('Copied to clipboard'); }
     else if (action === 'edit') { setEditingMessage(msg); setMessageText(msg.content); inputRef.current?.focus(); }
     else if (action === 'delete') {
-      const isMe = msg.sender_id === (currentUser?.id || 'current-user');
+      const isMe = msg.sender_id === currentUser?.id;
       if (isMe) {
         setMessages(prev => prev.map(m => m.id === msg.id ? { ...m, type: 'deleted', content: '🚫 Deleted' } : m));
       } else {

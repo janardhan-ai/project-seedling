@@ -79,8 +79,11 @@ const PostCard = ({ post, onPress, onCommentPress }: PostCardProps) => {
           <span className="text-[13px] font-semibold text-foreground">{post.comments}</span>
         </button>
 
-        <button className="flex items-center gap-1.5 active:scale-90 transition-transform ml-auto">
-          <Share2 className="h-[20px] w-[20px] text-foreground" strokeWidth={1.8} />
+        <button
+          onClick={() => navigate(`/post/${post.id}`)}
+          className="flex items-center gap-1.5 active:scale-90 transition-transform ml-auto"
+        >
+          <Send className="h-[20px] w-[20px] text-foreground" strokeWidth={1.8} />
         </button>
       </div>
 

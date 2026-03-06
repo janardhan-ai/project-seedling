@@ -118,15 +118,10 @@ const NotificationsPage = () => {
   const handlePress = (item: Notification) => {
     updateSections(secs => secs.map(s => ({ ...s, data: s.data.map(n => n.id === item.id ? { ...n, read: true } : n) })));
     // Navigate to related content
-    if (item.type === 'like' && item.relatedId?.startsWith('post_')) {
+    if ((item.type === 'like' || item.type === 'comment') && item.relatedId) {
       navigate(`/post/${item.relatedId}`);
-    } else if (item.type === 'comment' && item.relatedId?.startsWith('post_')) {
-      navigate(`/post/${item.relatedId}`);
-    } else if (item.type === 'follow' && item.relatedId?.startsWith('u')) {
-      // Could navigate to user profile when implemented
-    } else if (item.type === 'event' && item.relatedId?.startsWith('event_')) {
-      const eventId = item.relatedId.replace('event_', '');
-      navigate(`/event/${eventId}`);
+    } else if (item.type === 'event' && item.relatedId) {
+      navigate(`/event/${item.relatedId}`);
     }
   };
 
