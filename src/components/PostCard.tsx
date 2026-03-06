@@ -1,99 +1,102 @@
 import { Heart, MessageCircle, Share2 } from 'lucide-react';
 import { Post } from '@/types';
 import { useApp } from '@/context/AppContext';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
 
 interface PostCardProps {
   post: Post;
+  onPress?: () => void;
+  onCommentPress?: () => void;
 }
 
-const PostCard = ({ post }: PostCardProps) => {
+const PostCard = ({ post, onPress, onCommentPress }: PostCardProps) => {
   const { likePost } = useApp();
-  const navigate = useNavigate();
 
-  const timeAgo = () => {
-    const diff = Date.now() - new Date(post.createdAt).getTime();
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    if (hours < 1) return 'Just now';
-    if (hours < 24) return `${hours}h ago`;
-    return `${Math.floor(hours / 24)}d ago`;
+  const formatTime = (date: Date) => {
+    const diff = Date.now() - new Date(date).getTime();
+    const mins = Math.floor(diff / (1000 * 60));
+    if (mins < 60) return `${mins}m`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours}h`;
+    return `${Math.floor(hours / 24)}d`;
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="glass-card rounded-2xl overflow-hidden mb-4"
-    >
+    <div className="bg-card rounded-2xl overflow-hidden mb-4 shadow-sm border border-border/30">
       {/* Header */}
-      <div className="flex items-center gap-3 p-4 pb-2">
-        <Avatar className="h-9 w-9 ring-2 ring-primary/20">
-          <AvatarImage src={post.user.avatar} />
-          <AvatarFallback>{post.user.name[0]}</AvatarFallback>
-        </Avatar>
+      <div className="flex items-center gap-3 p-4">
+        <img
+          src={post.user.avatar}
+          alt={post.user.username}
+          className="w-10 h-10 rounded-full object-cover"
+        />
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-foreground truncate">{post.user.name}</p>
-          <p className="text-xs text-muted-foreground">{post.user.college} · {timeAgo()}</p>
+          <p className="text-sm font-semibold text-foreground">{post.user.username}</p>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            {post.user.college} • {formatTime(post.createdAt)}
+          </p>
         </div>
       </div>
 
-      {/* Image */}
+      {/* Post Image */}
       <div
-        className="relative aspect-square cursor-pointer"
-        onClick={() => navigate(`/post/${post.id}`)}
+        className="w-full cursor-pointer"
+        onClick={onPress}
       >
         <img
           src={post.image}
           alt={post.caption}
-          className="w-full h-full object-cover"
+          className="w-full h-[300px] object-cover bg-secondary"
           loading="lazy"
         />
       </div>
 
       {/* Actions */}
-      <div className="p-4 pt-3 space-y-2">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => likePost(post.id)}
-            className="flex items-center gap-1.5 group"
-          >
-            <Heart
-              className={cn(
-                'h-5 w-5 transition-all',
-                post.isLiked
-                  ? 'fill-accent text-accent scale-110'
-                  : 'text-muted-foreground group-hover:text-accent'
-              )}
-            />
-            <span className="text-sm text-muted-foreground">{post.likes}</span>
-          </button>
-          <button className="flex items-center gap-1.5 group">
-            <MessageCircle className="h-5 w-5 text-muted-foreground group-hover:text-campus-blue transition-colors" />
-            <span className="text-sm text-muted-foreground">{post.comments}</span>
-          </button>
-          <button className="flex items-center gap-1.5 group">
-            <Share2 className="h-5 w-5 text-muted-foreground group-hover:text-campus-green transition-colors" />
-            <span className="text-sm text-muted-foreground">{post.shares}</span>
-          </button>
-        </div>
+      <div className="flex items-center gap-5 px-4 py-3">
+        <button
+          onClick={() => likePost(post.id)}
+          className="flex items-center gap-1.5"
+        >
+          <Heart
+            className={cn(
+              'h-6 w-6 transition-all',
+              post.isLiked
+                ? 'fill-destructive text-destructive'
+                : 'text-foreground'
+            )}
+          />
+          <span className="text-sm font-medium text-foreground">{post.likes}</span>
+        </button>
 
-        <p className="text-sm">
-          <span className="font-semibold text-foreground">{post.user.username}</span>{' '}
-          <span className="text-foreground/80">{post.caption}</span>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onCommentPress?.();
+          }}
+          className="flex items-center gap-1.5"
+        >
+          <MessageCircle className="h-[22px] w-[22px] text-foreground" />
+          <span className="text-sm font-medium text-foreground">{post.comments}</span>
+        </button>
+
+        <button className="flex items-center gap-1.5">
+          <Share2 className="h-[22px] w-[22px] text-foreground" />
+        </button>
+      </div>
+
+      {/* Caption */}
+      <div className="px-4 pb-4">
+        <p className="text-sm text-foreground leading-5 line-clamp-2">
+          <span className="font-semibold">{post.user.username}</span>{' '}
+          {post.caption}
         </p>
-
         {post.hashtags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
-            {post.hashtags.map(tag => (
-              <span key={tag} className="text-xs text-primary font-medium">{tag}</span>
-            ))}
-          </div>
+          <p className="text-sm text-primary font-medium mt-1">
+            {post.hashtags.join(' ')}
+          </p>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 };
 
