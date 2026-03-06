@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import campusVibe from '@/assets/images/campus_vibe.png';
 
 const StartingPage = () => {
   const navigate = useNavigate();
@@ -13,9 +14,7 @@ const StartingPage = () => {
 
   return (
     <div className="min-h-screen bg-card flex items-center justify-center">
-      <div className="w-72 h-72 rounded-3xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-2xl animate-pulse">
-        <span className="text-6xl font-extrabold text-primary-foreground tracking-tight">CV</span>
-      </div>
+      <img src={campusVibe} alt="CampusVibe" className="w-72 h-72 rounded-3xl object-cover shadow-2xl animate-pulse" />
     </div>
   );
 };
