@@ -66,7 +66,7 @@ const ProfilePage = () => {
               <>
                 <div className="fixed inset-0 z-20" onClick={() => setMenuVisible(false)} />
                 <div className="absolute top-11 right-0 z-30 bg-card rounded-xl shadow-lg w-40 py-2 border border-border">
-                  <button className="flex items-center gap-3 w-full px-4 py-3 text-sm text-foreground hover:bg-secondary" onClick={() => setMenuVisible(false)}>
+                  <button className="flex items-center gap-3 w-full px-4 py-3 text-sm text-foreground hover:bg-secondary" onClick={() => { setMenuVisible(false); navigate('/settings'); }}>
                     <Settings className="h-4 w-4" /> Settings
                   </button>
                   <div className="h-px bg-border mx-2" />
