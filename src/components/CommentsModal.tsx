@@ -47,6 +47,7 @@ const dummyComments: Comment[] = [
 ];
 
 const CommentsModal = ({ visible, onClose, post }: CommentsModalProps) => {
+  const { currentUser } = useApp();
   const [commentText, setCommentText] = useState('');
   const [comments, setComments] = useState<Comment[]>(dummyComments);
 
