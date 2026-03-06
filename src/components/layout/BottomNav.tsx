@@ -1,12 +1,12 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import { Home, Search, PlusSquare, BookOpen, User } from 'lucide-react';
+import { Home, Search, Zap, BookOpen, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 const tabs = [
   { path: '/', icon: Home, label: 'Home' },
   { path: '/discover', icon: Search, label: 'Discover' },
-  { path: '/create', icon: PlusSquare, label: 'Create' },
+  { path: '/create', icon: Zap, label: 'Vibes' },
   { path: '/notes', icon: BookOpen, label: 'Notes' },
   { path: '/profile', icon: User, label: 'Profile' },
 ];
@@ -14,17 +14,16 @@ const tabs = [
 const BottomNav = () => {
   const location = useLocation();
 
-  // Hide on certain routes
-  const hiddenRoutes = ['/messages/', '/chat/'];
+  const hiddenRoutes = ['/chat/'];
   const shouldHide = hiddenRoutes.some(r => location.pathname.startsWith(r));
   if (shouldHide) return null;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 glass-card border-t border-border/50 safe-area-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border">
       <div className="mx-auto max-w-lg flex items-center justify-around h-16 px-2">
         {tabs.map(({ path, icon: Icon, label }) => {
           const isActive = path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
-          const isCreate = path === '/create';
+          const isVibes = path === '/create';
 
           return (
             <NavLink
@@ -32,10 +31,13 @@ const BottomNav = () => {
               to={path}
               className="relative flex flex-col items-center justify-center gap-0.5 px-3 py-1"
             >
-              {isCreate ? (
-                <div className="gradient-primary rounded-xl p-2.5 shadow-lg shadow-primary/30">
-                  <Icon className="h-5 w-5 text-primary-foreground" />
-                </div>
+              {isVibes ? (
+                <>
+                  <div className="gradient-primary rounded-xl p-2 shadow-md">
+                    <Icon className="h-5 w-5 text-white" />
+                  </div>
+                  <span className="text-[10px] font-medium text-primary mt-0.5">{label}</span>
+                </>
               ) : (
                 <>
                   <Icon
@@ -43,6 +45,7 @@ const BottomNav = () => {
                       'h-5 w-5 transition-colors',
                       isActive ? 'text-primary' : 'text-muted-foreground'
                     )}
+                    fill={isActive && path === '/' ? 'currentColor' : 'none'}
                   />
                   <span
                     className={cn(
@@ -52,13 +55,6 @@ const BottomNav = () => {
                   >
                     {label}
                   </span>
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeTab"
-                      className="absolute -top-0.5 h-0.5 w-6 rounded-full gradient-primary"
-                      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                    />
-                  )}
                 </>
               )}
             </NavLink>
