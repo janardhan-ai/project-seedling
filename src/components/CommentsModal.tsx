@@ -57,8 +57,8 @@ const CommentsModal = ({ visible, onClose, post }: CommentsModalProps) => {
     if (!commentText.trim()) return;
     const newComment: Comment = {
       id: Date.now().toString(),
-      user: 'you',
-      avatar: 'https://i.pravatar.cc/150?img=1',
+      user: currentUser?.username || 'you',
+      avatar: currentUser?.avatar || 'https://i.pravatar.cc/150?img=1',
       text: commentText,
       likes: 0,
       time: 'Just now',
