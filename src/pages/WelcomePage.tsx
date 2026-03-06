@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@/hooks/use-toast';
+import welcomeImage from '@/assets/images/image.png';
 
 const WelcomePage = () => {
   const navigate = useNavigate();
@@ -28,9 +29,7 @@ const WelcomePage = () => {
     <div className="min-h-screen bg-card flex flex-col items-center justify-center px-6 py-10">
       {/* Logo */}
       <div className="mb-8">
-        <div className="w-28 h-28 rounded-3xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-lg">
-          <span className="text-4xl font-extrabold text-primary-foreground tracking-tight">CV</span>
-        </div>
+        <img src={welcomeImage} alt="CampusVibe" className="w-28 h-28 rounded-3xl object-cover shadow-lg" />
       </div>
 
       {/* Form */}
