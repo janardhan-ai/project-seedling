@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@/hooks/use-toast';
+import { useApp } from '@/context/AppContext';
+import { users } from '@/data/users';
 import welcomeImage from '@/assets/images/image.png';
 import { motion } from 'framer-motion';
 
 const WelcomePage = () => {
   const navigate = useNavigate();
+  const { setCurrentUser } = useApp();
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -19,9 +22,11 @@ const WelcomePage = () => {
     }
     setLoading(true);
     setTimeout(() => {
+      // Demo: log in as first user (replace with real auth later)
+      setCurrentUser(users[0]);
       setLoading(false);
       toast({ title: 'Success', description: 'Logged in successfully!' });
-      navigate('/');
+      navigate('/', { replace: true });
     }, 1000);
   };
 
