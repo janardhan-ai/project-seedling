@@ -5,7 +5,7 @@ import PostCard from '@/components/PostCard';
 import CommentsModal from '@/components/CommentsModal';
 import { useNavigate } from 'react-router-dom';
 import { Post } from '@/types';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const HomePage = () => {
   const { currentUser, posts, notifications } = useApp();
@@ -48,7 +48,7 @@ const HomePage = () => {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-card/95 backdrop-blur-lg px-4 pt-3 pb-3 safe-top card-shadow">
+      <header className="sticky top-0 z-40 glass-header px-4 pt-3 pb-3 safe-top">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-10 h-10 rounded-xl gradient-accent flex items-center justify-center shadow-md shadow-primary/20">
@@ -56,19 +56,21 @@ const HomePage = () => {
             </div>
             <h1 className="text-xl font-bold text-foreground font-display tracking-tight">CampusVibe</h1>
           </div>
-          <div className="flex items-center gap-0.5">
-            <button
+          <div className="flex items-center gap-1">
+            <motion.button
+              whileTap={{ scale: 0.9 }}
               onClick={() => navigate('/events')}
-              className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-secondary active:scale-95 transition-all"
+              className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-secondary/80 transition-colors"
             >
               <Calendar className="h-[22px] w-[22px] text-foreground" strokeWidth={1.8} />
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileTap={{ scale: 0.9 }}
               onClick={() => navigate('/messages')}
-              className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-secondary active:scale-95 transition-all"
+              className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-secondary/80 transition-colors"
             >
               <MessageSquare className="h-[22px] w-[22px] text-foreground" strokeWidth={1.8} />
-            </button>
+            </motion.button>
           </div>
         </div>
       </header>
@@ -77,8 +79,9 @@ const HomePage = () => {
       <div className="flex-1 px-4 py-4">
         {/* Greeting */}
         <motion.h2
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
           className="text-[22px] font-bold text-foreground mb-4 font-display leading-tight"
         >
           {getGreeting()},<br />
@@ -88,37 +91,49 @@ const HomePage = () => {
         {/* Auto-rotating Notification Card */}
         {activeNotification && (
           <motion.button
-            initial={{ opacity: 0, y: 6 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+            transition={{ delay: 0.1, duration: 0.4 }}
             onClick={() => navigate('/notifications')}
-            className="relative w-full glass-card rounded-2xl p-4 mb-5 flex items-center gap-3 text-left h-[72px] active:scale-[0.98] transition-transform"
+            className="relative w-full glass-card rounded-2xl p-4 mb-5 flex items-center gap-3 text-left h-[72px] press-scale"
           >
-            {activeNotification.user && (
-              <img
-                src={activeNotification.user.avatar}
-                alt={activeNotification.user.name}
-                className="w-10 h-10 rounded-full object-cover shrink-0 ring-2 ring-primary/10"
-              />
-            )}
-            <div className="flex-1 min-w-0">
-              <p className="text-[14px] text-foreground truncate leading-5">
-                <span className="font-bold">{activeNotification.user?.name}</span>
-                {getNotificationText(activeNotification)}
-              </p>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                {activeNotification.time || 'Just now'}
-              </p>
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center gap-3 flex-1 min-w-0"
+              >
+                {activeNotification.user && (
+                  <img
+                    src={activeNotification.user.avatar}
+                    alt={activeNotification.user.name}
+                    className="w-10 h-10 rounded-full object-cover shrink-0 ring-2 ring-primary/10"
+                  />
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className="text-[14px] text-foreground truncate leading-5">
+                    <span className="font-bold">{activeNotification.user?.name}</span>
+                    {getNotificationText(activeNotification)}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    {activeNotification.time || 'Just now'}
+                  </p>
+                </div>
+              </motion.div>
+            </AnimatePresence>
 
             {/* Pagination Dots */}
             <div className="absolute top-3 right-3 flex gap-1">
               {recentNotifications.map((_, idx) => (
                 <div
                   key={idx}
-                  className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                    currentIndex === idx ? 'bg-primary w-3' : 'bg-border'
-                  }`}
+                  className={cn(
+                    'h-1.5 rounded-full transition-all duration-300',
+                    currentIndex === idx ? 'bg-primary w-4' : 'bg-border w-1.5'
+                  )}
                 />
               ))}
             </div>
@@ -129,9 +144,9 @@ const HomePage = () => {
         {posts.map((post, i) => (
           <motion.div
             key={post.id}
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05 * i }}
+            transition={{ delay: 0.05 * i, duration: 0.4 }}
           >
             <PostCard
               post={post}

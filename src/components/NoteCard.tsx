@@ -16,20 +16,27 @@ const resourceIcons = {
   doc: File,
 };
 
+const resourceColors = {
+  pdf: 'from-primary to-primary-glow',
+  link: 'from-campus-blue to-primary',
+  doc: 'from-campus-orange to-accent',
+};
+
 const NoteCard = ({ note }: NoteCardProps) => {
   const { likeNote, saveNote } = useApp();
   const navigate = useNavigate();
   const ResourceIcon = resourceIcons[note.resourceType];
+  const gradientClass = resourceColors[note.resourceType];
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-card rounded-2xl p-4 mb-3 card-shadow cursor-pointer active:scale-[0.98] transition-transform"
+      className="bg-card rounded-2xl p-4 mb-3 card-shadow hover-lift cursor-pointer press-scale-sm"
       onClick={() => navigate(`/note/${note.id}`)}
     >
       <div className="flex items-start gap-3">
-        <div className="rounded-xl gradient-primary p-2.5 shrink-0 shadow-sm shadow-primary/20">
+        <div className={cn('rounded-xl bg-gradient-to-br p-2.5 shrink-0 shadow-sm shadow-primary/15', gradientClass)}>
           <ResourceIcon className="h-5 w-5 text-white" />
         </div>
         <div className="flex-1 min-w-0">
@@ -51,30 +58,32 @@ const NoteCard = ({ note }: NoteCardProps) => {
           </div>
 
           <div className="flex items-center gap-4 mt-3 pt-2.5 border-t border-border/50">
-            <button
+            <motion.button
+              whileTap={{ scale: 0.85 }}
               onClick={(e) => { e.stopPropagation(); likeNote(note.id); }}
-              className="flex items-center gap-1 group active:scale-90 transition-transform"
+              className="flex items-center gap-1 group"
             >
               <Heart
                 className={cn(
-                  'h-4 w-4 transition-all',
-                  note.isLiked ? 'fill-accent text-accent' : 'text-muted-foreground group-hover:text-accent'
+                  'h-4 w-4 transition-all duration-200',
+                  note.isLiked ? 'fill-accent text-accent scale-110' : 'text-muted-foreground group-hover:text-accent'
                 )}
               />
               <span className="text-[12px] text-muted-foreground font-medium">{note.likes}</span>
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileTap={{ scale: 0.85 }}
               onClick={(e) => { e.stopPropagation(); saveNote(note.id); }}
-              className="flex items-center gap-1 group active:scale-90 transition-transform"
+              className="flex items-center gap-1 group"
             >
               <Bookmark
                 className={cn(
-                  'h-4 w-4 transition-all',
-                  note.isSaved ? 'fill-primary text-primary' : 'text-muted-foreground group-hover:text-primary'
+                  'h-4 w-4 transition-all duration-200',
+                  note.isSaved ? 'fill-primary text-primary scale-110' : 'text-muted-foreground group-hover:text-primary'
                 )}
               />
               <span className="text-[12px] text-muted-foreground font-medium">{note.saves}</span>
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>
