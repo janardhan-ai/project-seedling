@@ -14,6 +14,7 @@ import NotificationsPage from "./pages/NotificationsPage";
 import MessagesPage from "./pages/MessagesPage";
 import EventsPage from "./pages/EventsPage";
 import EventDetailPage from "./pages/EventDetailPage";
+import ChatDetailPage from "./pages/ChatDetailPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
               <Route path="/messages" element={<MessagesPage />} />
               <Route path="/events" element={<EventsPage />} />
               <Route path="/event/:eventId" element={<EventDetailPage />} />
+              <Route path="/chat/:chatId" element={<ChatDetailPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AppLayout>
