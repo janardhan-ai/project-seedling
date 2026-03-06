@@ -16,7 +16,7 @@ const StartingPage = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden"
       style={{
-        background: 'linear-gradient(145deg, hsl(263 86% 28%) 0%, hsl(263 70% 42%) 40%, hsl(330 81% 50%) 100%)',
+        background: 'linear-gradient(145deg, hsl(263 86% 22%) 0%, hsl(263 70% 42%) 50%, hsl(263 70% 58%) 100%)',
       }}
     >
       {/* Decorative orbs */}
@@ -24,7 +24,7 @@ const StartingPage = () => {
         style={{ background: 'radial-gradient(circle, hsl(263 70% 65%), transparent 70%)' }}
       />
       <div className="absolute bottom-[-15%] right-[-10%] w-[50vw] h-[50vw] rounded-full opacity-15 blur-3xl"
-        style={{ background: 'radial-gradient(circle, hsl(330 81% 65%), transparent 70%)' }}
+        style={{ background: 'radial-gradient(circle, hsl(263 86% 55%), transparent 70%)' }}
       />
 
       <motion.div

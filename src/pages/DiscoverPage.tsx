@@ -7,9 +7,9 @@ import { motion } from 'framer-motion';
 
 const trendingTags = [
   { tag: '#CollegeLife', count: '12.5k', gradient: 'from-primary to-primary-glow' },
-  { tag: '#TechFest2024', count: '8.2k', gradient: 'from-accent to-campus-orange' },
-  { tag: '#Notes', count: '15.6k', gradient: 'from-campus-green to-campus-blue' },
-  { tag: '#Memes', count: '20.1k', gradient: 'from-campus-blue to-primary' },
+  { tag: '#TechFest2024', count: '8.2k', gradient: 'from-primary-glow to-primary' },
+  { tag: '#Notes', count: '15.6k', gradient: 'from-primary to-primary-glow' },
+  { tag: '#Memes', count: '20.1k', gradient: 'from-primary-glow to-primary' },
 ];
 
 const DiscoverPage = () => {
