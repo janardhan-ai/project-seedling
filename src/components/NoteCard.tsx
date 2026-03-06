@@ -18,8 +18,8 @@ const resourceIcons = {
 
 const resourceColors = {
   pdf: 'from-primary to-primary-glow',
-  link: 'from-campus-blue to-primary',
-  doc: 'from-campus-orange to-accent',
+  link: 'from-primary-glow to-primary',
+  doc: 'from-primary to-primary-glow',
 };
 
 const NoteCard = ({ note }: NoteCardProps) => {
