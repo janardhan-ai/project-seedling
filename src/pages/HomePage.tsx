@@ -2,11 +2,16 @@ import { useState, useEffect } from 'react';
 import { GraduationCap, Calendar, MessageSquare } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import PostCard from '@/components/PostCard';
+import CommentsModal from '@/components/CommentsModal';
 import { useNavigate } from 'react-router-dom';
+import { Post } from '@/types';
 
 const HomePage = () => {
   const { currentUser, posts, notifications } = useApp();
   const navigate = useNavigate();
+
+  const [showComments, setShowComments] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
   // Auto-rotating notification card
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -42,16 +47,16 @@ const HomePage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-card px-4 pt-3 pb-3 shadow-sm border-b border-border/30">
+      {/* Header - matches theme.ts exactly */}
+      <header className="sticky top-0 z-40 bg-card px-4 pt-3 pb-3 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center">
               <GraduationCap className="h-5 w-5 text-primary" />
             </div>
             <h1 className="text-lg font-bold text-foreground font-display">CampusVibe</h1>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             <button
               onClick={() => navigate('/events')}
               className="w-10 h-10 flex items-center justify-center"
@@ -79,7 +84,7 @@ const HomePage = () => {
         {activeNotification && (
           <button
             onClick={() => navigate('/notifications')}
-            className="relative w-full bg-card rounded-2xl p-4 mb-4 shadow-sm border border-border/30 flex items-center gap-3 text-left h-[70px]"
+            className="relative w-full bg-card rounded-2xl p-4 mb-4 shadow-sm flex items-center gap-3 text-left h-[70px]"
           >
             {activeNotification.user && (
               <img
@@ -118,9 +123,20 @@ const HomePage = () => {
             key={post.id}
             post={post}
             onPress={() => navigate(`/post/${post.id}`)}
+            onCommentPress={() => {
+              setSelectedPost(post);
+              setShowComments(true);
+            }}
           />
         ))}
       </div>
+
+      {/* Comments Modal */}
+      <CommentsModal
+        visible={showComments}
+        onClose={() => setShowComments(false)}
+        post={selectedPost}
+      />
     </div>
   );
 };
