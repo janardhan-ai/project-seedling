@@ -5,6 +5,7 @@ import PostCard from '@/components/PostCard';
 import CommentsModal from '@/components/CommentsModal';
 import { useNavigate } from 'react-router-dom';
 import { Post } from '@/types';
+import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const HomePage = () => {
