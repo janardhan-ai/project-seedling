@@ -32,7 +32,6 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   // Start with null — user must log in first
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [notes, setNotes] = useState<Note[]>(initialNotes);
   const [notifications, setNotifications] = useState<Notification[]>(initialNotifications);
