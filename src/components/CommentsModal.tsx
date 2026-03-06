@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { X, Heart, Send, MessageCircle } from 'lucide-react';
 import { Post } from '@/types';
 import { cn } from '@/lib/utils';
-import { Input } from '@/components/ui/input';
+import { useApp } from '@/context/AppContext';
 
 interface Comment {
   id: string;
