@@ -19,6 +19,7 @@ import PostDetailPage from "./pages/PostDetailPage";
 import NoteDetailPage from "./pages/NoteDetailPage";
 import SettingsPage from "./pages/SettingsPage";
 import EditProfilePage from "./pages/EditProfilePage";
+import FollowersPage from "./pages/FollowersPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,6 +47,7 @@ const App = () => (
               <Route path="/note/:noteId" element={<NoteDetailPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/edit-profile" element={<EditProfilePage />} />
+              <Route path="/followers" element={<FollowersPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AppLayout>
