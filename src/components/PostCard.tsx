@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Heart, MessageCircle, Share2 } from 'lucide-react';
 import { Post } from '@/types';
 import { useApp } from '@/context/AppContext';
@@ -22,7 +23,7 @@ const PostCard = ({ post, onPress, onCommentPress }: PostCardProps) => {
   };
 
   return (
-    <div className="bg-card rounded-2xl overflow-hidden mb-4 shadow-sm border border-border/30">
+    <div className="bg-card rounded-2xl overflow-hidden mb-4 shadow-sm">
       {/* Header */}
       <div className="flex items-center gap-3 p-4">
         <img
@@ -31,22 +32,19 @@ const PostCard = ({ post, onPress, onCommentPress }: PostCardProps) => {
           className="w-10 h-10 rounded-full object-cover"
         />
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-foreground">{post.user.username}</p>
-          <p className="text-xs text-muted-foreground mt-0.5">
+          <p className="text-base font-semibold text-foreground">{post.user.username}</p>
+          <p className="text-sm text-muted-foreground mt-0.5">
             {post.user.college} • {formatTime(post.createdAt)}
           </p>
         </div>
       </div>
 
       {/* Post Image */}
-      <div
-        className="w-full cursor-pointer"
-        onClick={onPress}
-      >
+      <div className="w-full cursor-pointer" onClick={onPress}>
         <img
           src={post.image}
           alt={post.caption}
-          className="w-full h-[300px] object-cover bg-secondary"
+          className="w-full h-[300px] object-cover bg-muted"
           loading="lazy"
         />
       </div>
@@ -86,7 +84,7 @@ const PostCard = ({ post, onPress, onCommentPress }: PostCardProps) => {
 
       {/* Caption */}
       <div className="px-4 pb-4">
-        <p className="text-sm text-foreground leading-5 line-clamp-2">
+        <p className="text-base text-foreground leading-5 line-clamp-2">
           <span className="font-semibold">{post.user.username}</span>{' '}
           {post.caption}
         </p>

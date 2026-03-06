@@ -6,72 +6,78 @@
 
 @layer base {
   :root {
-    --background: 220 20% 97%;
-    --foreground: 230 25% 10%;
+    /* Mapped from theme.ts exactly */
+    --background: 0 0% 96.1%; /* #F5F5F7 */
+    --foreground: 217 33% 17%; /* #1F2937 */
 
-    --card: 0 0% 100%;
-    --card-foreground: 230 25% 10%;
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 217 33% 17%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 230 25% 10%;
+    --popover-foreground: 217 33% 17%;
 
-    --primary: 262 83% 58%;
+    --primary: 263 70% 66%; /* #8B5CF6 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 14% 96%;
-    --secondary-foreground: 230 25% 10%;
+    --secondary: 213 94% 68%; /* #60A5FA */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 9% 46%;
+    --muted: 0 0% 96.1%; /* #F5F5F7 */
+    --muted-foreground: 220 9% 46%; /* #6B7280 */
 
-    --accent: 330 81% 60%;
+    --accent: 330 81% 60%; /* #EC4899 */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 84% 60%; /* #EF4444 */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
+    --border: 220 13% 91%; /* #E5E7EB */
     --input: 220 13% 91%;
-    --ring: 262 83% 58%;
+    --ring: 263 70% 66%;
 
     --radius: 0.75rem;
 
-    --campus-purple: 262 83% 58%;
-    --campus-pink: 330 81% 60%;
-    --campus-blue: 217 91% 60%;
-    --campus-green: 142 71% 45%;
-    --campus-orange: 25 95% 53%;
+    /* Campus custom tokens from theme.ts */
+    --campus-purple: 263 70% 66%; /* #8B5CF6 */
+    --campus-purple-dark: 263 86% 58%; /* #7C3AED */
+    --campus-purple-light: 263 86% 70%; /* #A78BFA */
+    --campus-pink: 330 81% 60%; /* #EC4899 */
+    --campus-blue: 217 91% 60%; /* #3B82F6 */
+    --campus-green: 142 71% 45%; /* #22C55E */
+    --campus-success: 160 84% 39%; /* #10B981 */
+    --campus-warning: 38 92% 50%; /* #F59E0B */
+    --campus-orange: 38 92% 50%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(262, 83%, 58%), hsl(330, 81%, 60%));
-    --gradient-card: linear-gradient(180deg, hsl(0, 0%, 100%), hsl(220, 20%, 98%));
+    --text-light: 220 9% 46%; /* #6B7280 */
+    --text-muted: 218 11% 65%; /* #9CA3AF */
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 262 83% 58%;
+    --sidebar-primary: 263 70% 66%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 262 83% 58%;
+    --sidebar-ring: 263 70% 66%;
   }
 
   .dark {
-    --background: 230 25% 7%;
+    --background: 224 30% 8%;
     --foreground: 220 20% 95%;
 
-    --card: 230 20% 11%;
+    --card: 224 25% 12%;
     --card-foreground: 220 20% 95%;
 
-    --popover: 230 20% 11%;
+    --popover: 224 25% 12%;
     --popover-foreground: 220 20% 95%;
 
-    --primary: 262 83% 62%;
+    --primary: 263 70% 70%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 230 15% 16%;
-    --secondary-foreground: 220 20% 95%;
+    --secondary: 213 94% 50%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 230 15% 16%;
+    --muted: 224 20% 16%;
     --muted-foreground: 220 9% 55%;
 
     --accent: 330 81% 65%;
@@ -80,18 +86,18 @@
     --destructive: 0 62% 30%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 230 15% 18%;
-    --input: 230 15% 18%;
-    --ring: 262 83% 62%;
+    --border: 224 15% 20%;
+    --input: 224 15% 20%;
+    --ring: 263 70% 70%;
 
-    --sidebar-background: 230 25% 7%;
+    --sidebar-background: 224 30% 8%;
     --sidebar-foreground: 220 20% 95%;
-    --sidebar-primary: 262 83% 62%;
+    --sidebar-primary: 263 70% 70%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 230 15% 16%;
+    --sidebar-accent: 224 20% 16%;
     --sidebar-accent-foreground: 220 20% 95%;
-    --sidebar-border: 230 15% 18%;
-    --sidebar-ring: 262 83% 62%;
+    --sidebar-border: 224 15% 20%;
+    --sidebar-ring: 263 70% 70%;
   }
 }
 
@@ -112,11 +118,11 @@
 
 @layer utilities {
   .gradient-primary {
-    background: linear-gradient(135deg, hsl(262, 83%, 58%), hsl(330, 81%, 60%));
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
   }
 
   .gradient-text {
-    background: linear-gradient(135deg, hsl(262, 83%, 58%), hsl(330, 81%, 60%));
+    background: linear-gradient(135deg, #8B5CF6, #EC4899);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
