@@ -4,6 +4,7 @@ import { useApp } from '@/context/AppContext';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 interface NoteCardProps {
   note: Note;
@@ -17,13 +18,15 @@ const resourceIcons = {
 
 const NoteCard = ({ note }: NoteCardProps) => {
   const { likeNote, saveNote } = useApp();
+  const navigate = useNavigate();
   const ResourceIcon = resourceIcons[note.resourceType];
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-card rounded-2xl p-4 mb-3 card-shadow"
+      className="bg-card rounded-2xl p-4 mb-3 card-shadow cursor-pointer active:scale-[0.98] transition-transform"
+      onClick={() => navigate(`/note/${note.id}`)}
     >
       <div className="flex items-start gap-3">
         <div className="rounded-xl gradient-primary p-2.5 shrink-0 shadow-sm shadow-primary/20">
@@ -48,7 +51,10 @@ const NoteCard = ({ note }: NoteCardProps) => {
           </div>
 
           <div className="flex items-center gap-4 mt-3 pt-2.5 border-t border-border/50">
-            <button onClick={() => likeNote(note.id)} className="flex items-center gap-1 group active:scale-90 transition-transform">
+            <button
+              onClick={(e) => { e.stopPropagation(); likeNote(note.id); }}
+              className="flex items-center gap-1 group active:scale-90 transition-transform"
+            >
               <Heart
                 className={cn(
                   'h-4 w-4 transition-all',
@@ -57,7 +63,10 @@ const NoteCard = ({ note }: NoteCardProps) => {
               />
               <span className="text-[12px] text-muted-foreground font-medium">{note.likes}</span>
             </button>
-            <button onClick={() => saveNote(note.id)} className="flex items-center gap-1 group active:scale-90 transition-transform">
+            <button
+              onClick={(e) => { e.stopPropagation(); saveNote(note.id); }}
+              className="flex items-center gap-1 group active:scale-90 transition-transform"
+            >
               <Bookmark
                 className={cn(
                   'h-4 w-4 transition-all',
