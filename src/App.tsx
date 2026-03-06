@@ -35,30 +35,37 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <AppLayout>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/discover" element={<DiscoverPage />} />
-              <Route path="/create" element={<CreatePage />} />
-              <Route path="/notes" element={<NotesPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/notifications" element={<NotificationsPage />} />
-              <Route path="/messages" element={<MessagesPage />} />
-              <Route path="/events" element={<EventsPage />} />
-              <Route path="/event/:eventId" element={<EventDetailPage />} />
-              <Route path="/chat/:chatId" element={<ChatDetailPage />} />
-              <Route path="/post/:postId" element={<PostDetailPage />} />
-              <Route path="/note/:noteId" element={<NoteDetailPage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/edit-profile" element={<EditProfilePage />} />
-              <Route path="/followers" element={<FollowersPage />} />
-              <Route path="/following" element={<FollowingPage />} />
-              <Route path="/welcome" element={<WelcomePage />} />
-              <Route path="/starting" element={<StartingPage />} />
-              <Route path="/signup" element={<SignupPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </AppLayout>
+          <Routes>
+            {/* Auth screens — no navbar */}
+            <Route path="/welcome" element={<WelcomePage />} />
+            <Route path="/starting" element={<StartingPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+
+            {/* App screens — with navbar */}
+            <Route path="*" element={
+              <AppLayout>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/discover" element={<DiscoverPage />} />
+                  <Route path="/create" element={<CreatePage />} />
+                  <Route path="/notes" element={<NotesPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/notifications" element={<NotificationsPage />} />
+                  <Route path="/messages" element={<MessagesPage />} />
+                  <Route path="/events" element={<EventsPage />} />
+                  <Route path="/event/:eventId" element={<EventDetailPage />} />
+                  <Route path="/chat/:chatId" element={<ChatDetailPage />} />
+                  <Route path="/post/:postId" element={<PostDetailPage />} />
+                  <Route path="/note/:noteId" element={<NoteDetailPage />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="/edit-profile" element={<EditProfilePage />} />
+                  <Route path="/followers" element={<FollowersPage />} />
+                  <Route path="/following" element={<FollowingPage />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </AppLayout>
+            } />
+          </Routes>
         </BrowserRouter>
       </AppProvider>
     </TooltipProvider>
