@@ -17,6 +17,7 @@
 
     --primary: 263 70% 58%;
     --primary-foreground: 0 0% 100%;
+    --primary-glow: 263 86% 50%;
 
     --secondary: 240 5% 93%;
     --secondary-foreground: 230 25% 12%;
@@ -69,6 +70,7 @@
 
     --primary: 263 70% 65%;
     --primary-foreground: 0 0% 100%;
+    --primary-glow: 263 86% 55%;
 
     --secondary: 230 15% 17%;
     --secondary-foreground: 0 0% 95%;
@@ -106,6 +108,7 @@
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
   }
 
   body {
@@ -125,12 +128,21 @@
 }
 
 @layer utilities {
+  /* ─── Gradient Utilities ─── */
   .gradient-primary {
     background: linear-gradient(135deg, hsl(263 70% 58%), hsl(263 86% 50%));
   }
 
   .gradient-accent {
     background: linear-gradient(135deg, hsl(263 70% 58%), hsl(330 81% 60%));
+  }
+
+  .gradient-warm {
+    background: linear-gradient(135deg, hsl(330 81% 60%), hsl(24 95% 53%));
+  }
+
+  .gradient-surface {
+    background: linear-gradient(180deg, hsl(var(--card)) 0%, hsl(var(--background)) 100%);
   }
 
   .gradient-text {
@@ -140,19 +152,60 @@
     background-clip: text;
   }
 
+  /* ─── Glass & Card Effects ─── */
   .glass-card {
-    @apply bg-card/80 backdrop-blur-xl border border-white/10;
-    box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.06);
+    @apply bg-card/80 backdrop-blur-xl border border-border/50;
+    box-shadow:
+      0 4px 24px -4px rgba(0, 0, 0, 0.06),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-nav {
+    @apply bg-card/90 backdrop-blur-2xl border-t border-border/40;
+    box-shadow: 0 -4px 30px -8px rgba(0, 0, 0, 0.08);
+  }
+
+  .glass-header {
+    @apply bg-card/92 backdrop-blur-xl;
+    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.04);
   }
 
   .card-shadow {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.03),
+      0 4px 16px rgba(0, 0, 0, 0.04);
   }
 
   .card-shadow-lg {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 12px 40px rgba(0, 0, 0, 0.04);
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.06),
+      0 12px 40px rgba(0, 0, 0, 0.04);
   }
 
+  .card-shadow-glow {
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.04),
+      0 0 40px -12px hsl(263 70% 58% / 0.15);
+  }
+
+  /* ─── Interaction Utilities ─── */
+  .press-scale {
+    @apply active:scale-[0.97] transition-transform duration-150;
+  }
+
+  .press-scale-sm {
+    @apply active:scale-[0.98] transition-transform duration-100;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-200;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  /* ─── Scrollbar & Touch ─── */
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -161,9 +214,33 @@
     scrollbar-width: none;
   }
 
-  /* Touch-friendly */
   .touch-target {
     min-height: 44px;
     min-width: 44px;
+  }
+
+  /* ─── Shimmer effect for loading states ─── */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted) / 0.5) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* ─── Floating label input styling ─── */
+  .input-modern {
+    @apply w-full bg-secondary/60 border border-border/60 rounded-2xl px-4 py-3.5 text-[15px] text-foreground 
+           placeholder:text-muted-foreground/60 outline-none 
+           focus:ring-2 focus:ring-primary/30 focus:border-primary/50 focus:bg-card
+           transition-all duration-200;
   }
 }
