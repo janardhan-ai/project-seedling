@@ -151,7 +151,7 @@ const ChatDetailPage = () => {
     setContextMenu(null);
   };
 
-  const isMe = (senderId: string) => senderId === (currentUser?.id || 'current-user');
+  const isMe = (senderId: string) => senderId === currentUser?.id;
 
   return (
     <div className="flex flex-col h-screen bg-muted/40">
