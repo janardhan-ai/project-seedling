@@ -34,11 +34,11 @@ const HomePage = () => {
     return 'Good Evening';
   };
 
-  const getNotificationMessage = (n: typeof activeNotification) => {
+  const getNotificationText = (n: typeof activeNotification) => {
     if (!n) return '';
     switch (n.type) {
       case 'like': return ' liked your post.';
-      case 'comment': return ' commented on your post.';
+      case 'comment': return ' commented on ...';
       case 'follow': return ' started following you.';
       case 'event': return ' posted an event.';
       default: return '';
@@ -47,27 +47,27 @@ const HomePage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      {/* Header - matches theme.ts exactly */}
+      {/* Header */}
       <header className="sticky top-0 z-40 bg-card px-4 pt-3 pb-3 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center">
               <GraduationCap className="h-5 w-5 text-primary" />
             </div>
-            <h1 className="text-lg font-bold text-foreground font-display">CampusVibe</h1>
+            <h1 className="text-xl font-bold text-foreground font-display">CampusVibe</h1>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <button
               onClick={() => navigate('/events')}
               className="w-10 h-10 flex items-center justify-center"
             >
-              <Calendar className="h-6 w-6 text-foreground" />
+              <Calendar className="h-6 w-6 text-foreground" strokeWidth={1.5} />
             </button>
             <button
               onClick={() => navigate('/messages')}
               className="w-10 h-10 flex items-center justify-center"
             >
-              <MessageSquare className="h-6 w-6 text-foreground" />
+              <MessageSquare className="h-6 w-6 text-foreground" strokeWidth={1.5} />
             </button>
           </div>
         </div>
@@ -75,9 +75,9 @@ const HomePage = () => {
 
       {/* Content */}
       <div className="flex-1 px-4 py-4">
-        {/* Greeting */}
-        <h2 className="text-2xl font-bold text-foreground mb-4 font-display">
-          {getGreeting()}, {currentUser?.name}!
+        {/* Greeting - full name like screenshot */}
+        <h2 className="text-[24px] font-bold text-foreground mb-4 font-display leading-tight">
+          {getGreeting()},<br />{currentUser?.name}!
         </h2>
 
         {/* Auto-rotating Notification Card */}
@@ -94,9 +94,9 @@ const HomePage = () => {
               />
             )}
             <div className="flex-1 min-w-0">
-              <p className="text-sm text-foreground truncate">
+              <p className="text-[15px] text-foreground truncate">
                 <span className="font-bold">{activeNotification.user?.name}</span>
-                {getNotificationMessage(activeNotification)}
+                {getNotificationText(activeNotification)}
               </p>
               <p className="text-xs text-muted-foreground mt-0.5">
                 {activeNotification.time || 'Just now'}
