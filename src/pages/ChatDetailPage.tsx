@@ -81,7 +81,7 @@ const ChatDetailPage = () => {
     const newMsg: EnhancedMessage = {
       id: Date.now().toString(),
       conversation_id: chatId || '',
-      sender_id: currentUser?.id || 'current-user',
+      sender_id: currentUser?.id || '1',
       sender_name: currentUser?.name || 'You',
       sender_avatar: currentUser?.avatar || '',
       content: messageText,
