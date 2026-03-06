@@ -23,6 +23,7 @@ import FollowersPage from "./pages/FollowersPage";
 import FollowingPage from "./pages/FollowingPage";
 import WelcomePage from "./pages/WelcomePage";
 import StartingPage from "./pages/StartingPage";
+import SignupPage from "./pages/SignupPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -54,6 +55,7 @@ const App = () => (
               <Route path="/following" element={<FollowingPage />} />
               <Route path="/welcome" element={<WelcomePage />} />
               <Route path="/starting" element={<StartingPage />} />
+              <Route path="/signup" element={<SignupPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AppLayout>
