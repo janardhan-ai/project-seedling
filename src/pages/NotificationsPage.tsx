@@ -42,14 +42,14 @@ const RAW_NOTIFICATIONS: Notification[] = [
     id: '2', type: 'like',
     user: { id: 'u2', name: 'Rahul Verma', username: 'rahul_v', avatar: 'https://i.pravatar.cc/150?img=12' },
     postImage: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=200&auto=format&fit=crop',
-    timestamp: '15m', read: false, relatedId: 'post_101',
+    timestamp: '15m', read: false, relatedId: '1',
   },
   {
     id: '3', type: 'comment',
     user: { id: 'u3', name: 'Arjun Das', username: 'arjun_d', avatar: 'https://i.pravatar.cc/150?img=3' },
     content: 'Bro, is this notes pdf available for ECE branch too?',
     postImage: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=200&auto=format&fit=crop',
-    timestamp: '1d', read: true, relatedId: 'post_102',
+    timestamp: '1d', read: true, relatedId: '2',
   },
   {
     id: '4', type: 'follow',
