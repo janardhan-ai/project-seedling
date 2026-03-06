@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { motion } from 'framer-motion';
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -29,13 +30,12 @@ const SignupPage = () => {
 
   const handleSignup = () => {
     setError('');
-
     if (!username || !name || !dob || !email || !phoneNumber || !password || !confirmPassword) {
       setError('All fields are required');
       return;
     }
     if (!validateUsername(username)) {
-      setError('Username must be at least 3 characters and contain only letters, numbers, and underscores');
+      setError('Username must be at least 3 characters (letters, numbers, underscore only)');
       return;
     }
     if (!validateEmail(email)) {
@@ -56,7 +56,6 @@ const SignupPage = () => {
     }
 
     setLoading(true);
-    // Simulate signup — replace with Supabase auth later
     setTimeout(() => {
       setLoading(false);
       toast({ title: 'Success', description: 'Account created successfully!' });
@@ -64,89 +63,88 @@ const SignupPage = () => {
     }, 1200);
   };
 
-  const inputClass = "w-full h-[48px] border border-border rounded-xl px-4 text-sm text-foreground bg-muted/30 placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-ring";
+  const inputClass =
+    'w-full h-[48px] border border-border rounded-xl px-4 text-[15px] text-foreground bg-background placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all';
 
   return (
-    <div className="min-h-screen bg-card relative">
+    <div className="min-h-screen bg-card">
       {/* Back button */}
-      <button
-        onClick={() => navigate(-1)}
-        className="absolute top-12 left-4 z-10 w-10 h-10 rounded-full bg-card shadow-md flex items-center justify-center border border-border"
-      >
-        <ArrowLeft size={20} className="text-foreground" />
-      </button>
+      <div className="sticky top-0 z-10 bg-card/95 backdrop-blur-lg px-4 pt-4 pb-3 safe-top">
+        <button
+          onClick={() => navigate(-1)}
+          className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center active:scale-95 transition-transform"
+        >
+          <ArrowLeft size={20} className="text-foreground" />
+        </button>
+      </div>
 
-      <div className="max-w-md mx-auto px-6 pt-24 pb-10">
-        <h1 className="text-2xl font-bold text-foreground mb-1">Create your student account</h1>
-        <p className="text-sm text-muted-foreground mb-5">Join the campus community</p>
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-md mx-auto px-6 pt-2 pb-10"
+      >
+        <h1 className="text-[24px] font-bold text-foreground mb-1 font-display">Create your account</h1>
+        <p className="text-sm text-muted-foreground mb-6">Join the campus community</p>
 
         {error && (
-          <div className="bg-destructive/10 border border-destructive/30 rounded-lg px-4 py-3 mb-5">
-            <p className="text-sm text-destructive text-center">{error}</p>
+          <div className="bg-destructive/8 border border-destructive/20 rounded-xl px-4 py-3 mb-5">
+            <p className="text-sm text-destructive text-center font-medium">{error}</p>
           </div>
         )}
 
         <div className="space-y-4">
-          {/* Username */}
           <div>
-            <label className="text-sm font-medium text-foreground mb-1.5 block">Username</label>
-            <input value={username} onChange={e => setUsername(e.target.value)} placeholder="Enter a unique username" autoComplete="username" className={inputClass} />
-            <p className="text-xs text-muted-foreground mt-1">No spaces or special characters except underscore</p>
+            <label className="text-[13px] font-semibold text-foreground mb-1.5 block">Username</label>
+            <input value={username} onChange={e => setUsername(e.target.value)} placeholder="Choose a username" autoComplete="username" className={inputClass} />
+            <p className="text-[11px] text-muted-foreground mt-1">Letters, numbers, and underscores only</p>
           </div>
 
-          {/* Full Name */}
           <div>
-            <label className="text-sm font-medium text-foreground mb-1.5 block">Full Name</label>
+            <label className="text-[13px] font-semibold text-foreground mb-1.5 block">Full Name</label>
             <input value={name} onChange={e => setName(e.target.value)} placeholder="Enter your full name" autoComplete="name" className={inputClass} />
           </div>
 
-          {/* DOB */}
           <div>
-            <label className="text-sm font-medium text-foreground mb-1.5 block">Date of Birth</label>
+            <label className="text-[13px] font-semibold text-foreground mb-1.5 block">Date of Birth</label>
             <input value={dob} onChange={e => setDob(formatDOB(e.target.value))} placeholder="DD/MM/YYYY" maxLength={10} className={inputClass} />
-            <p className="text-xs text-muted-foreground mt-1">Format: DD/MM/YYYY (automatically formatted)</p>
           </div>
 
-          {/* Email */}
           <div>
-            <label className="text-sm font-medium text-foreground mb-1.5 block">Email</label>
+            <label className="text-[13px] font-semibold text-foreground mb-1.5 block">Email</label>
             <input value={email} onChange={e => setEmail(e.target.value)} placeholder="your.email@gmail.com" type="email" autoComplete="email" className={inputClass} />
           </div>
 
-          {/* Phone */}
           <div>
-            <label className="text-sm font-medium text-foreground mb-1.5 block">Phone Number</label>
-            <input value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} placeholder="Enter your phone number" type="tel" autoComplete="tel" className={inputClass} />
+            <label className="text-[13px] font-semibold text-foreground mb-1.5 block">Phone Number</label>
+            <input value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} placeholder="Enter phone number" type="tel" autoComplete="tel" className={inputClass} />
           </div>
 
-          {/* Password */}
           <div>
-            <label className="text-sm font-medium text-foreground mb-1.5 block">Password</label>
+            <label className="text-[13px] font-semibold text-foreground mb-1.5 block">Password</label>
             <input value={password} onChange={e => setPassword(e.target.value)} placeholder="Create a password" type="password" autoComplete="new-password" className={inputClass} />
           </div>
 
-          {/* Confirm Password */}
           <div>
-            <label className="text-sm font-medium text-foreground mb-1.5 block">Confirm Password</label>
+            <label className="text-[13px] font-semibold text-foreground mb-1.5 block">Confirm Password</label>
             <input value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Re-enter password" type="password" autoComplete="new-password" className={inputClass} />
           </div>
 
           <button
             onClick={handleSignup}
             disabled={loading}
-            className="w-full h-[52px] bg-primary text-primary-foreground rounded-xl text-sm font-semibold shadow-md disabled:opacity-50 transition-opacity mt-2"
+            className="w-full h-[52px] gradient-primary text-white rounded-xl text-[15px] font-semibold shadow-lg shadow-primary/25 disabled:opacity-50 transition-all active:scale-[0.98] mt-2"
           >
             {loading ? 'Creating Account...' : 'Sign Up'}
           </button>
 
           <p className="text-sm text-muted-foreground text-center mt-6">
             Already have an account?{' '}
-            <button onClick={() => navigate('/welcome')} className="text-primary font-semibold hover:underline">
+            <button onClick={() => navigate('/welcome')} className="text-primary font-semibold">
               Log in
             </button>
           </p>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
