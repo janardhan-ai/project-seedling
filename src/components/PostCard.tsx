@@ -3,6 +3,7 @@ import { Post } from '@/types';
 import { useApp } from '@/context/AppContext';
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 interface PostCardProps {
   post: Post;
@@ -24,7 +25,7 @@ const PostCard = ({ post, onPress, onCommentPress }: PostCardProps) => {
   };
 
   return (
-    <div className="bg-card rounded-2xl overflow-hidden mb-4 card-shadow">
+    <div className="bg-card rounded-2xl overflow-hidden mb-4 card-shadow hover-lift">
       {/* Header */}
       <div className="flex items-center gap-3 p-3.5">
         <img
@@ -41,7 +42,7 @@ const PostCard = ({ post, onPress, onCommentPress }: PostCardProps) => {
       </div>
 
       {/* Post Image */}
-      <div className="w-full cursor-pointer active:opacity-95 transition-opacity" onClick={onPress}>
+      <div className="w-full cursor-pointer press-scale-sm" onClick={onPress}>
         <img
           src={post.image}
           alt={post.caption}
@@ -52,39 +53,42 @@ const PostCard = ({ post, onPress, onCommentPress }: PostCardProps) => {
 
       {/* Actions */}
       <div className="flex items-center gap-5 px-4 py-3">
-        <button
+        <motion.button
+          whileTap={{ scale: 0.8 }}
           onClick={() => likePost(post.id)}
-          className="flex items-center gap-1.5 active:scale-90 transition-transform"
+          className="flex items-center gap-1.5"
         >
           <Heart
             className={cn(
-              'h-[22px] w-[22px] transition-all',
+              'h-[22px] w-[22px] transition-all duration-200',
               post.isLiked
-                ? 'fill-destructive text-destructive'
+                ? 'fill-destructive text-destructive scale-110'
                 : 'text-foreground'
             )}
             strokeWidth={post.isLiked ? 0 : 1.8}
           />
           <span className="text-[13px] font-semibold text-foreground">{post.likes}</span>
-        </button>
+        </motion.button>
 
-        <button
+        <motion.button
+          whileTap={{ scale: 0.85 }}
           onClick={(e) => {
             e.stopPropagation();
             onCommentPress?.();
           }}
-          className="flex items-center gap-1.5 active:scale-90 transition-transform"
+          className="flex items-center gap-1.5"
         >
           <MessageCircle className="h-[21px] w-[21px] text-foreground" strokeWidth={1.8} />
           <span className="text-[13px] font-semibold text-foreground">{post.comments}</span>
-        </button>
+        </motion.button>
 
-        <button
+        <motion.button
+          whileTap={{ scale: 0.85 }}
           onClick={() => navigate(`/post/${post.id}`)}
-          className="flex items-center gap-1.5 active:scale-90 transition-transform ml-auto"
+          className="flex items-center gap-1.5 ml-auto"
         >
           <Send className="h-[20px] w-[20px] text-foreground" strokeWidth={1.8} />
-        </button>
+        </motion.button>
       </div>
 
       {/* Caption */}

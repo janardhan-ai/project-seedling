@@ -6,10 +6,10 @@ import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
 const trendingTags = [
-  { tag: '#CollegeLife', count: '12.5k', color: 'bg-purple-500' },
-  { tag: '#TechFest2024', count: '8.2k', color: 'bg-pink-500' },
-  { tag: '#Notes', count: '15.6k', color: 'bg-green-500' },
-  { tag: '#Memes', count: '20.1k', color: 'bg-blue-500' },
+  { tag: '#CollegeLife', count: '12.5k', gradient: 'from-primary to-primary-glow' },
+  { tag: '#TechFest2024', count: '8.2k', gradient: 'from-accent to-campus-orange' },
+  { tag: '#Notes', count: '15.6k', gradient: 'from-campus-green to-campus-blue' },
+  { tag: '#Memes', count: '20.1k', gradient: 'from-campus-blue to-primary' },
 ];
 
 const DiscoverPage = () => {
@@ -17,6 +17,7 @@ const DiscoverPage = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterVisible, setFilterVisible] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState('All Colleges');
 
   const filteredPosts = searchQuery.trim()
     ? posts.filter(p =>
@@ -29,18 +30,18 @@ const DiscoverPage = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header / Search */}
-      <div className="bg-card px-4 pt-6 pb-4 shadow-sm sticky top-0 z-10">
-        <div className="flex items-center gap-3 bg-background rounded-xl px-4 h-12">
+      <div className="glass-header px-4 pt-6 pb-4 sticky top-0 z-10">
+        <div className="flex items-center gap-3 bg-secondary/60 rounded-2xl px-4 h-12 border border-border/40">
           <Search className="h-5 w-5 text-muted-foreground shrink-0" />
           <input
             type="text"
             placeholder="Search students, posts, notes…"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="flex-1 bg-transparent text-base text-foreground placeholder:text-muted-foreground outline-none"
+            className="flex-1 bg-transparent text-base text-foreground placeholder:text-muted-foreground/60 outline-none"
           />
           {searchQuery && (
-            <button onClick={() => setSearchQuery('')}>
+            <button onClick={() => setSearchQuery('')} className="press-scale">
               <X className="h-4 w-4 text-muted-foreground" />
             </button>
           )}
@@ -52,17 +53,23 @@ const DiscoverPage = () => {
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-3">
             <TrendingUp className="h-5 w-5 text-primary" />
-            <h2 className="text-lg font-bold text-foreground">Trending Now</h2>
+            <h2 className="text-lg font-bold text-foreground font-display">Trending Now</h2>
           </div>
-          <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-none">
-            {trendingTags.map(item => (
-              <div
+          <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 hide-scrollbar">
+            {trendingTags.map((item, i) => (
+              <motion.div
                 key={item.tag}
-                className={cn('shrink-0 rounded-xl px-4 py-3 min-w-[140px]', item.color)}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.08 }}
+                className={cn(
+                  'shrink-0 rounded-2xl px-5 py-3.5 min-w-[150px] bg-gradient-to-br cursor-pointer press-scale',
+                  item.gradient
+                )}
               >
-                <p className="text-base font-semibold text-white mb-0.5">{item.tag}</p>
-                <p className="text-sm text-white/90">{item.count} posts</p>
-              </div>
+                <p className="text-base font-bold text-white mb-0.5">{item.tag}</p>
+                <p className="text-sm text-white/80 font-medium">{item.count} posts</p>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -70,11 +77,25 @@ const DiscoverPage = () => {
         {/* Discover Header */}
         <div className="flex items-center gap-2 mb-4">
           <Compass className="h-5 w-5 text-primary" />
-          <h2 className="text-lg font-bold text-foreground flex-1">Discover</h2>
-          <button onClick={() => setFilterVisible(true)} className="p-1">
+          <h2 className="text-lg font-bold text-foreground font-display flex-1">Discover</h2>
+          <button onClick={() => setFilterVisible(true)} className="p-2 rounded-xl hover:bg-secondary/80 transition-colors press-scale">
             <SlidersHorizontal className="h-5 w-5 text-foreground" />
           </button>
         </div>
+
+        {/* Active filter chip */}
+        {selectedFilter !== 'All Colleges' && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="inline-flex items-center gap-1.5 bg-primary/10 text-primary text-xs font-semibold px-3 py-1.5 rounded-full mb-3"
+          >
+            {selectedFilter}
+            <button onClick={() => setSelectedFilter('All Colleges')}>
+              <X className="h-3 w-3" />
+            </button>
+          </motion.div>
+        )}
 
         {/* Grid */}
         {filteredPosts.length === 0 ? (
@@ -89,18 +110,19 @@ const DiscoverPage = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.03 }}
-                className="relative aspect-square rounded-xl overflow-hidden group"
+                className="relative aspect-square rounded-2xl overflow-hidden group press-scale-sm"
                 onClick={() => navigate(`/post/${post.id}`)}
               >
                 <img src={post.image} alt="" className="w-full h-full object-cover bg-muted group-hover:scale-105 transition-transform duration-300" loading="lazy" />
-                <div className="absolute bottom-0 inset-x-0 bg-black/30 px-2 py-1.5 rounded-b-xl flex gap-3">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                <div className="absolute bottom-0 inset-x-0 bg-black/30 backdrop-blur-sm px-2.5 py-2 flex gap-3">
                   <span className="flex items-center gap-1">
-                    <Heart className="h-4 w-4 text-white" />
-                    <span className="text-xs font-medium text-white">{post.likes}</span>
+                    <Heart className="h-3.5 w-3.5 text-white" />
+                    <span className="text-[11px] font-semibold text-white">{post.likes}</span>
                   </span>
                   <span className="flex items-center gap-1">
-                    <MessageCircle className="h-4 w-4 text-white" />
-                    <span className="text-xs font-medium text-white">{post.comments}</span>
+                    <MessageCircle className="h-3.5 w-3.5 text-white" />
+                    <span className="text-[11px] font-semibold text-white">{post.comments}</span>
                   </span>
                 </div>
               </motion.button>
@@ -112,17 +134,30 @@ const DiscoverPage = () => {
       {/* Filter Modal */}
       {filterVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setFilterVisible(false)} />
-          <div className="relative bg-card rounded-xl p-6 w-[80%] max-w-[300px] animate-in fade-in zoom-in-95 duration-200">
-            <p className="text-base font-semibold text-foreground mb-2">Filter by</p>
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setFilterVisible(false)} />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="relative bg-card rounded-2xl p-6 w-[85%] max-w-[320px] card-shadow-lg"
+          >
+            <p className="text-base font-bold text-foreground mb-3 font-display">Filter by</p>
             {['All Colleges', 'My College', 'Other Colleges'].map(opt => (
-              <button key={opt} className="w-full text-left py-3 border-b border-border text-base text-foreground" onClick={() => setFilterVisible(false)}>{opt}</button>
+              <button
+                key={opt}
+                className={cn(
+                  'w-full text-left py-3 border-b border-border text-base transition-colors rounded-lg px-2',
+                  selectedFilter === opt ? 'text-primary font-semibold bg-primary/5' : 'text-foreground'
+                )}
+                onClick={() => { setSelectedFilter(opt); setFilterVisible(false); }}
+              >
+                {opt}
+              </button>
             ))}
-            <p className="text-base font-semibold text-foreground mt-4 mb-2">Content Type</p>
+            <p className="text-base font-bold text-foreground mt-5 mb-3 font-display">Content Type</p>
             {['All', 'Memes', 'Notes', 'Events'].map(opt => (
-              <button key={opt} className="w-full text-left py-3 border-b border-border text-base text-foreground last:border-b-0" onClick={() => setFilterVisible(false)}>{opt}</button>
+              <button key={opt} className="w-full text-left py-3 border-b border-border text-base text-foreground last:border-b-0 rounded-lg px-2 hover:bg-secondary/50 transition-colors" onClick={() => setFilterVisible(false)}>{opt}</button>
             ))}
-          </div>
+          </motion.div>
         </div>
       )}
     </div>
