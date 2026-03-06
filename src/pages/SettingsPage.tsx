@@ -18,7 +18,7 @@ const SettingsPage = () => {
 
   const handleLogout = () => {
     setCurrentUser(null);
-    navigate('/');
+    navigate('/welcome', { replace: true });
   };
 
   return (

@@ -30,8 +30,8 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  // Default to first user for demo (no auth required)
-  const [currentUser, setCurrentUser] = useState<User | null>(initialUsers[0]);
+  // Start with null — user must log in first
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [notes, setNotes] = useState<Note[]>(initialNotes);
   const [notifications, setNotifications] = useState<Notification[]>(initialNotifications);

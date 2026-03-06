@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useApp } from '@/context/AppContext';
 import { useNavigate } from 'react-router-dom';
-import { MapPin, BookOpen, Calendar, Heart, MoreVertical, Share2, MessageSquare, Lock, Settings, Upload, X, Link, Search, Zap } from 'lucide-react';
+import { MapPin, BookOpen, Calendar, Heart, MoreVertical, Share2, Lock, Settings, Upload, X, Link, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type ProfileTab = 'posts' | 'notes' | 'events';
@@ -52,25 +52,24 @@ const ProfilePage = () => {
       {/* Banner */}
       <div className="relative h-40 overflow-hidden bg-muted">
         <img src={DEFAULT_BANNER} alt="" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/40" />
         {isOwnProfile && (
           <div className="absolute top-12 right-5 z-10">
             <button
               onClick={() => setMenuVisible(!menuVisible)}
-              className="w-9 h-9 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-sm"
+              className="w-9 h-9 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-sm active:scale-95 transition-transform"
             >
               <MoreVertical className="h-5 w-5 text-white" />
             </button>
-            {/* Dropdown Menu */}
             {menuVisible && (
               <>
                 <div className="fixed inset-0 z-20" onClick={() => setMenuVisible(false)} />
-                <div className="absolute top-11 right-0 z-30 bg-card rounded-xl shadow-lg w-40 py-2 border border-border">
-                  <button className="flex items-center gap-3 w-full px-4 py-3 text-sm text-foreground hover:bg-secondary" onClick={() => { setMenuVisible(false); navigate('/settings'); }}>
+                <div className="absolute top-11 right-0 z-30 bg-card rounded-xl shadow-lg w-40 py-2 border border-border card-shadow-lg">
+                  <button className="flex items-center gap-3 w-full px-4 py-3 text-sm text-foreground hover:bg-secondary active:bg-secondary" onClick={() => { setMenuVisible(false); navigate('/settings'); }}>
                     <Settings className="h-4 w-4" /> Settings
                   </button>
                   <div className="h-px bg-border mx-2" />
-                  <button className="flex items-center gap-3 w-full px-4 py-3 text-sm text-foreground hover:bg-secondary" onClick={() => setMenuVisible(false)}>
+                  <button className="flex items-center gap-3 w-full px-4 py-3 text-sm text-foreground hover:bg-secondary active:bg-secondary" onClick={() => setMenuVisible(false)}>
                     <Upload className="h-4 w-4" /> Upload
                   </button>
                 </div>
@@ -82,18 +81,16 @@ const ProfilePage = () => {
 
       {/* Profile Info */}
       <div className="flex flex-col items-center px-6">
-        {/* Avatar */}
         <div className="relative -mt-[50px] mb-2.5">
-          <div className="p-1 bg-card rounded-full">
+          <div className="p-1 bg-card rounded-full shadow-lg">
             <img src={currentUser.avatar} alt="" className="w-[100px] h-[100px] rounded-full object-cover" />
           </div>
           <div className="absolute bottom-1.5 right-1.5 w-[18px] h-[18px] rounded-full bg-green-500 border-[3px] border-card" />
         </div>
 
-        <h2 className="text-2xl font-extrabold text-foreground mb-0.5">{currentUser.name}</h2>
+        <h2 className="text-2xl font-extrabold text-foreground mb-0.5 font-display">{currentUser.name}</h2>
         <p className="text-sm text-muted-foreground mb-2.5">@{currentUser.username}</p>
 
-        {/* Academic Info */}
         <div className="flex items-center justify-center flex-wrap gap-x-2 gap-y-1 mb-3 text-sm text-muted-foreground">
           <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{currentUser.college}</span>
           <span className="text-border">•</span>
@@ -105,30 +102,30 @@ const ProfilePage = () => {
         {currentUser.bio && <p className="text-sm text-foreground/80 text-center leading-5 mb-3 px-5">{currentUser.bio}</p>}
       </div>
 
-      {/* Stats */}
+      {/* Stats — now clickable */}
       <div className="flex justify-center items-center gap-6 mb-5">
         <div className="text-center">
           <p className="text-lg font-bold text-foreground">{userPosts.length}</p>
           <p className="text-xs text-muted-foreground mt-0.5">Posts</p>
         </div>
         <div className="w-px h-5 bg-border" />
-        <div className="text-center">
+        <button onClick={() => navigate('/followers')} className="text-center active:opacity-70 transition-opacity">
           <p className="text-lg font-bold text-foreground">{currentUser.followers}</p>
           <p className="text-xs text-muted-foreground mt-0.5">Followers</p>
-        </div>
+        </button>
         <div className="w-px h-5 bg-border" />
-        <div className="text-center">
+        <button onClick={() => navigate('/following')} className="text-center active:opacity-70 transition-opacity">
           <p className="text-lg font-bold text-foreground">{currentUser.following}</p>
           <p className="text-xs text-muted-foreground mt-0.5">Following</p>
-        </div>
+        </button>
       </div>
 
       {/* Actions */}
       <div className="flex gap-2.5 px-6 mb-6">
-        <button onClick={() => navigate('/edit-profile')} className="flex-[4] bg-foreground text-background rounded-lg py-2.5 text-sm font-semibold text-center">
+        <button onClick={() => navigate('/edit-profile')} className="flex-[4] gradient-primary text-white rounded-xl py-2.5 text-sm font-semibold text-center shadow-md shadow-primary/20 active:scale-[0.98] transition-transform">
           Edit Profile
         </button>
-        <button onClick={() => setShareModalVisible(true)} className="flex-1 bg-secondary rounded-lg flex items-center justify-center text-sm font-semibold text-foreground">
+        <button onClick={() => setShareModalVisible(true)} className="flex-1 bg-secondary rounded-xl flex items-center justify-center text-sm font-semibold text-foreground active:scale-95 transition-transform">
           Share
         </button>
       </div>
@@ -141,7 +138,7 @@ const ProfilePage = () => {
             onClick={() => setActiveTab(tab)}
             className={cn(
               'py-3 mr-6 text-sm font-semibold border-b-2 capitalize transition-colors',
-              activeTab === tab ? 'border-foreground text-foreground' : 'border-transparent text-muted-foreground'
+              activeTab === tab ? 'border-primary text-primary' : 'border-transparent text-muted-foreground'
             )}
           >
             {tab}
@@ -163,7 +160,7 @@ const ProfilePage = () => {
                 <button
                   key={i}
                   onClick={() => navigate(`/post/${post.id}`)}
-                  className="aspect-square rounded overflow-hidden bg-muted"
+                  className="aspect-square rounded-lg overflow-hidden bg-muted active:opacity-80 transition-opacity"
                 >
                   <img src={post.image} alt="" className="w-full h-full object-cover" loading="lazy" />
                 </button>
@@ -178,7 +175,7 @@ const ProfilePage = () => {
               <button
                 key={note.id}
                 onClick={() => navigate(`/note/${note.id}`)}
-                className="w-full text-left bg-secondary p-4 rounded-xl"
+                className="w-full text-left bg-secondary p-4 rounded-xl active:scale-[0.98] transition-transform"
               >
                 <div className="flex items-center gap-2 mb-2">
                   <BookOpen className="h-4 w-4 text-primary" />
@@ -196,9 +193,9 @@ const ProfilePage = () => {
               <button
                 key={event.id}
                 onClick={() => navigate(`/event/${event.id}`)}
-                className="w-full flex items-center gap-3 bg-secondary p-3 rounded-xl text-left"
+                className="w-full flex items-center gap-3 bg-secondary p-3 rounded-xl text-left active:scale-[0.98] transition-transform"
               >
-                <div className="w-10 h-10 bg-card rounded-lg flex flex-col items-center justify-center shrink-0">
+                <div className="w-10 h-10 bg-card rounded-lg flex flex-col items-center justify-center shrink-0 shadow-sm">
                   <span className="text-base font-bold text-foreground leading-none">{new Date(event.event_date).getDate()}</span>
                   <span className="text-[9px] font-bold text-destructive uppercase">
                     {new Date(event.event_date).toLocaleString('en', { month: 'short' })}
@@ -220,17 +217,17 @@ const ProfilePage = () => {
           <div className="absolute inset-0 bg-black/50" onClick={() => setShareModalVisible(false)} />
           <div className="relative w-full max-w-lg bg-card rounded-t-[20px] h-[50vh] flex flex-col animate-in slide-in-from-bottom duration-300">
             <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-              <h3 className="text-lg font-bold text-foreground">Share Profile</h3>
+              <h3 className="text-lg font-bold text-foreground font-display">Share Profile</h3>
               <button onClick={() => setShareModalVisible(false)}><X className="h-6 w-6 text-foreground" /></button>
             </div>
             <div className="flex justify-around py-5 px-4">
               <button className="flex flex-col items-center gap-2">
-                <div className="w-11 h-11 rounded-full bg-primary flex items-center justify-center"><Share2 className="h-5 w-5 text-primary-foreground" /></div>
-                <span className="text-xs text-foreground">Share via...</span>
+                <div className="w-11 h-11 rounded-full gradient-primary flex items-center justify-center shadow-md shadow-primary/20"><Share2 className="h-5 w-5 text-white" /></div>
+                <span className="text-xs text-foreground font-medium">Share via...</span>
               </button>
               <button onClick={handleCopyLink} className="flex flex-col items-center gap-2">
-                <div className="w-11 h-11 rounded-full bg-muted flex items-center justify-center"><Link className="h-5 w-5 text-foreground" /></div>
-                <span className="text-xs text-foreground">Copy Link</span>
+                <div className="w-11 h-11 rounded-full bg-secondary flex items-center justify-center"><Link className="h-5 w-5 text-foreground" /></div>
+                <span className="text-xs text-foreground font-medium">Copy Link</span>
               </button>
             </div>
             <div className="h-px bg-border mx-5 mb-4" />
@@ -246,7 +243,7 @@ const ProfilePage = () => {
                     <img src={u.avatar} alt={u.name} className="w-9 h-9 rounded-full object-cover" />
                     <span className="text-sm font-semibold text-foreground">{u.name}</span>
                   </div>
-                  <button onClick={() => setShareModalVisible(false)} className="bg-foreground text-background text-xs font-semibold px-4 py-1.5 rounded-full">Send</button>
+                  <button onClick={() => setShareModalVisible(false)} className="gradient-primary text-white text-xs font-semibold px-4 py-1.5 rounded-full">Send</button>
                 </div>
               ))}
             </div>
