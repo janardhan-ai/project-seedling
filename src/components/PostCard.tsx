@@ -12,6 +12,7 @@ interface PostCardProps {
 
 const PostCard = ({ post, onPress, onCommentPress }: PostCardProps) => {
   const { likePost } = useApp();
+  const navigate = useNavigate();
 
   const formatTime = (date: Date) => {
     const diff = Date.now() - new Date(date).getTime();
